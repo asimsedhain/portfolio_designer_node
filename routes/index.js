@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.json({"Index": "Working"})
+  res.json({"Available Endpoints": ["users"]})
 });
 
 module.exports = router;
