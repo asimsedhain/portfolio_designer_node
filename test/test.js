@@ -38,6 +38,8 @@ describe("API Tests", () => {
 
 		// Testing the post endpoint
 		describe("POST /users", async () => {
+
+			// Testing with all valid input
 			it("should post the data and return the ID", async () => {
 				const res = await request(app).post("/users").send({ Name: "Test", Bio: "Hey I am Test", Projects: [], Education: [], SocialMediaLinks: [], Experiences: [] })
 				expect(res.statusCode).to.equal(200)
@@ -45,12 +47,14 @@ describe("API Tests", () => {
 				expect(res.body).to.not.have.property("error")
 			})
 
+			// Testing with invalid input
 			it("should not post data and should return an error", async () => {
 				const res = await request(app).post("/users").send({ Bio: "Hey I am Test", Projects: [], Education: [], SocialMediaLinks: [], Experiences: [] })
 				expect(res.statusCode).to.equal(401)
 				expect(res.body).to.have.property("error")
 			})
 
+			// Testing with invaild input
 			it("should not post data and should return an error", async () => {
 				const res = await request(app).post("/users").send({ Name: "Test", Projects: [], Education: [], SocialMediaLinks: [], Experiences: [] })
 				expect(res.statusCode).to.equal(401)
