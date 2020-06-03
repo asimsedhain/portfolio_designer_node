@@ -10,7 +10,8 @@ router.get('/', function (req, res, next) {
 
 router.get("/:id", async (req, res) => {
 	try {
-		const user = await Portfolio.findById(req.param.id)
+
+		const user = await Portfolio.findById(req.params.id).exec()
 		if (user) {
 			res.json(user)
 		} else {
@@ -21,6 +22,7 @@ router.get("/:id", async (req, res) => {
 		res.statusCode = 401
 		res.json({ "error": "Invalid ID" })
 	}
+	// res.json({id:req.params.id})
 })
 
 router.post("/", async (req, res) => {

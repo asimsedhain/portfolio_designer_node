@@ -7,7 +7,11 @@ on:
 jobs:
   Node_CI:
     runs-on: ubuntu-latest
-          
+    services:
+      mongo:
+        image: mongo
+        ports:
+          - 27017:27017 
     env:
       DB_URL: ${{ secrets.DB_URL }}
     strategy:
