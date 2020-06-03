@@ -14,9 +14,11 @@ const invalid_doc = [{ "Bio": "Hey I am Test", Projects: [], Education: [], Soci
 
 
 before("Setting up", async () => {
-	await mongoose.connect(DB_URL, { useNewUrlParser: true })
+	await mongoose.connect(DB_URL, { useNewUrlParser: true }).then(()=>{
 
 	ids = (await Portfolio.insertMany(vaild_doc)).map(doc => doc._id)
+	})
+
 
 })
 
