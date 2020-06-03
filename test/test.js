@@ -38,12 +38,15 @@ describe("API Tests", () => {
 
 		// Testing the post endpoint
 		describe("POST /users", async () => {
+
+
 			it("should post the data and return the ID", async () => {
 				const res = await request(app).post("/users").send({ Name: "Test", Bio: "Hey I am Test", Projects: [], Education: [], SocialMediaLinks: [], Experiences: [] })
 				expect(res.statusCode).to.equal(200)
 				expect(res.body).to.have.property("id")
 				expect(res.body).to.not.have.property("error")
 			})
+
 
 			it("should not post data and should return an error", async () => {
 				const res = await request(app).post("/users").send({ Bio: "Hey I am Test", Projects: [], Education: [], SocialMediaLinks: [], Experiences: [] })
