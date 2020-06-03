@@ -3,25 +3,24 @@ const expect = require('chai').expect
 const request = require("supertest")
 const mongoose = require("mongoose")
 const Portfolio = require("../models/portfolio")
-
+mongoose.Promise = global.Promise;
 const DB_URL = "mongodb://localhost:27017"
-mongoose.set('bufferCommands', false);
 
-let ids;
+
 const vaild_doc = [{ Name: "hey", "Bio": "Hey I am Test", Projects: [], Education: [], SocialMediaLinks: [], Experiences: [] }, { Name: "Hey", Bio: "I am another test" }]
 const invalid_doc = [{ "Bio": "Hey I am Test", Projects: [], Education: [], SocialMediaLinks: [], Experiences: [] }, { Name: "Test", Projects: [], Education: [], SocialMediaLinks: [], Experiences: [] }]
 
 
 
 before("Setting up", async () => {
-	await mongoose.connect(DB_URL, { useNewUrlParser: true })
-
-	ids = (await Portfolio.insertMany(vaild_doc)).map(doc => doc._id)
+	mongoose.connect(DB_URL, { useNewUrlParser: true })
 
 })
 
 // Testing all the api endpoints
 describe("API Tests", () => {
+
+
 	// Testing all the GET requests
 	describe("GET", async () => {
 
@@ -39,16 +38,7 @@ describe("API Tests", () => {
 				expect(res.body).to.have.property("error")
 			})
 
-			ids.map((id) => {
-				it("should get the users", async () => {
-					const res = await request(app).get(`/users/${id}`)
-					expect(res.statusCode).to.equal(200)
-					expect(res.body).to.have.property("Name")
-					expect(res.body).to.have.property("Bio")
-					expect(res.body).to.not.have.property("error")
-				})
-			})
-
+			
 		})
 
 
