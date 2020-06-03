@@ -3,8 +3,11 @@
 Portfolio Designer
 </h1>
 <p align="center">
-		<img align="center" src="https://github.com/asimsedhain/portfolio_designer_node/workflows/CI/badge.svg" />
-		<img align="center" src="https://github.com/asimsedhain/portfolio_designer_node/workflows/CD/badge.svg" />
+	<a href="https://capos.netlify.app/">	
+		<img align="center" src="https://api.netlify.com/api/v1/badges/3d4f7024-efb0-4e67-8baa-577fe9a3eabb/deploy-status" />
+	</a>
+	<img align="center" src="https://github.com/asimsedhain/portfolio_designer_node/workflows/CI/badge.svg" />
+	<img align="center" src="https://github.com/asimsedhain/portfolio_designer_node/workflows/CD/badge.svg" />
 </p>
                                                               
 <p align="center">
