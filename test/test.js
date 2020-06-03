@@ -5,7 +5,7 @@ const mongoose = require("mongoose")
 const Portfolio = require("../models/portfolio")
 
 const DB_URL = "mongodb://localhost:27017"
-
+mongoose.set('bufferCommands', false);
 
 let ids;
 const vaild_doc = [{ Name: "hey", "Bio": "Hey I am Test", Projects: [], Education: [], SocialMediaLinks: [], Experiences: [] }, { Name: "Hey", Bio: "I am another test" }]
@@ -14,11 +14,9 @@ const invalid_doc = [{ "Bio": "Hey I am Test", Projects: [], Education: [], Soci
 
 
 before("Setting up", async () => {
-	await mongoose.connect(DB_URL, { useNewUrlParser: true }).then(()=>{
+	await mongoose.connect(DB_URL, { useNewUrlParser: true })
 
 	ids = (await Portfolio.insertMany(vaild_doc)).map(doc => doc._id)
-	})
-
 
 })
 
