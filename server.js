@@ -1,6 +1,6 @@
 const app = require("./app")
 const mongoose = require("mongoose")
-
+const dotenv = require('dotenv').config()
 
 const DB_URL = process.env.DB_URL || "mongodb://localhost:27017"
 
