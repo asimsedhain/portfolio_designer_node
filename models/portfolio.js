@@ -1,38 +1,36 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const Project = { Title: { type: String, required: true }, SourceLink: String, DemoLink: String, Description: String, Highlights: [String] }
+const Project = { Title: { type: String, required: true }, SourceLink: String, DemoLink: String, Description: String, Highlights: [String] , StartDate: String, EndDate: String}
 
-const Education = { InstituteName: { type: String, required: true }, StartDate: Date, EndDate: Date, Degree: String }
+const Education = { InstituteName: { type: String, required: true }, StartDate: String, EndDate: String, Degree: String, Courses: [String] }
 
-const SocialMediaLink = { Title: { type: String, required: true }, Link: { type: String, required: true } }
-
-const Experience = { CompanyName: { type: String, required: true }, Position: { type: String, required: true }, StartDate: Date, EndDate: Date, Description: String, Highlights: [String] }
+const Experience = { CompanyName: { type: String, required: true }, Position: { type: String, required: true }, StartDate: String, EndDate: String, Description: String, Highlights: [String] }
 
 
 const portfolioSchema = new Schema({
-	Name: {
+	fullName: {
 		type: String,
-		required: true,
 		unique: false
 	},
+	email: String,
 
-	Bio: {
+	github: String,
+	linkedin: String,
+
+	bio: {
 		type: String,
-		required: true
 	},
 
-	WebsiteState: {},
+	websiteState: {},
 
-	Projects: [Project],
+	projects: [Project],
 
-	Education: [Education],
+	education: [Education],
 
-	SocialMediaLinks: [SocialMediaLink],
+	experiences: [Experience],
 
-	Experiences: [Experience],
-
-	Skills: [String],
+	skills: [String],
 
 })
 
