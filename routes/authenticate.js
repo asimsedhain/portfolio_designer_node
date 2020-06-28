@@ -31,7 +31,7 @@ router.post("/google", async (req, res) => {
 
 		// Setting the cookie and responding back with the access token
 		res.cookie("rwt", createRefreshToken(existingUser._id), { httpOnly: true })
-		res.json({"awt": createAccessToken(existingUser._id, existingUser.name)})
+		res.json({"awt": createAccessToken(existingUser._id, existingUser.fullName)})
 
 	} catch (e) {
 		console.log(e)

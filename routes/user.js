@@ -12,7 +12,7 @@ router.get("/refresh_token", verifyRefreshTokenMiddleware, async (req, res) => {
 	}
 	// Setting the cookie and responding back with the access token
 	res.cookie("rwt", createRefreshToken(existingUser._id), { httpOnly: true })
-	res.json({ "awt": createAccessToken(existingUser._id, existingUser.name) })
+	res.json({ "awt": createAccessToken(existingUser._id, existingUser.fullName) })
 })
 
 router.get("/logout", async (req, res)=>{
