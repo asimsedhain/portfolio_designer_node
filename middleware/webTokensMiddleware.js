@@ -1,4 +1,4 @@
-const { verifyRefreshToken, verifyAccessToken} = require("../utility/webTokens")
+const { verifyRefreshToken, verifyAccessToken } = require("../utility/webTokens")
 
 const verifyAccessTokenMiddleware = (req, res, next) => {
 	const encodedToken = req.headers["authorization"]
@@ -15,17 +15,20 @@ const verifyAccessTokenMiddleware = (req, res, next) => {
 }
 
 
-const verifyRefreshTokenMiddleware = (req, res, next)=>{
+const verifyRefreshTokenMiddleware = (req, res, next) => {
 	const encodedToken = req.cookies.rwt
-	try{
-		const token = verifyRefreshToken(encodedToken)
-		req.userId = token.id
-		next()
-	}catch(error){
-		console.log(error)
-		next(error)
+	if (encodedToken) {
+		try {
+			const token = verifyRefreshToken(encodedToken)
+			req.userId = token.id
+			next()
+		} catch (error) {
+			next(error)
+		}
+	}else{
+		res.json({status: "ok"})
 	}
 }
 
 
-module.exports = {verifyAccessTokenMiddleware, verifyRefreshTokenMiddleware}
+module.exports = { verifyAccessTokenMiddleware, verifyRefreshTokenMiddleware }

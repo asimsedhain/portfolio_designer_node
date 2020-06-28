@@ -1,4 +1,5 @@
 const queryString = require("query-string")
+const dotenv = require("dotenv").config()
 
 const stringifiedParams = queryString.stringify({
   client_id: process.env.GOOGLE_APP_ID,

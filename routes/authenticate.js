@@ -19,7 +19,6 @@ router.post("/google", async (req, res) => {
 		// name: full name of the user
 		// these three will be used to create/verify user
 		idToken = decode(jwtIdToken)
-		console.log(idToken)
 
 		
 		let existingUser = await User.findById(idToken.sub).exec()
