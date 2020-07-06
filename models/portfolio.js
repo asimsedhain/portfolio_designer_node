@@ -9,6 +9,7 @@ const Experience = { CompanyName: { type: String, required: true }, Position: { 
 
 
 const portfolioSchema = new Schema({
+	userId: String,
 	fullName: {
 		type: String,
 		unique: false

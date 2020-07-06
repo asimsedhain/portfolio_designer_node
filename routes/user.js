@@ -20,4 +20,16 @@ router.get("/logout", async (req, res)=>{
 	res.json({status: "ok"})
 })
 
+//GETs all the portfolios for the user
+router.get("/portfolios", verifyAccessToken, async (req, res) =>{
+	
+})
+
+//GETs the portfolio with the given id in query
+router.get("portfolio", verifyAccessToken, async (req, res)=>{
+
+
+})
+
+
 module.exports = router
