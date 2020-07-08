@@ -4,7 +4,7 @@ const router = express.Router();
 const User = require('../models/user')
 const { decode } = require('jsonwebtoken')
 const { createAccessToken, createRefreshToken, verifyAccessToken } = require("../utility/webTokens");
-const { verifyRefreshTokenMiddleware } = require("../middleware/webTokensMiddleware")
+const { verifyRefreshTokenMiddleware, verifyAccessTokenMiddleware} = require("../middleware/webTokensMiddleware")
 
 router.get("/refresh_token", verifyRefreshTokenMiddleware, async (req, res) => {
 	let existingUser = await User.findById(req.userId).exec()
@@ -22,13 +22,13 @@ router.get("/logout", async (req, res)=>{
 })
 
 //GETs all the portfolios for the user
-router.get("/portfolios", verifyAccessToken, async (req, res) =>{
+router.get("/portfolios", verifyAccessTokenMiddleware, async (req, res) =>{
 	
 })
 
 //GETs the portfolio with the given id in query
-router.get("portfolio", verifyAccessToken, async (req, res)=>{
-
+router.get("/portfolio", verifyAccessTokenMiddleware, async (req, res)=>{
+	res.json({ok: "ok"})
 
 })
 
