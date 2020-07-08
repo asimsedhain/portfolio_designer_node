@@ -1,3 +1,4 @@
+const createError = require("http-errors")
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user')
@@ -8,7 +9,7 @@ const { verifyRefreshTokenMiddleware } = require("../middleware/webTokensMiddlew
 router.get("/refresh_token", verifyRefreshTokenMiddleware, async (req, res) => {
 	let existingUser = await User.findById(req.userId).exec()
 	if (!existingUser) {
-		throw "User not found"
+		throw createError(401)
 	}
 	// Setting the cookie and responding back with the access token
 	res.cookie("rwt", createRefreshToken(existingUser._id), { httpOnly: true })

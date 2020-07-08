@@ -16,7 +16,7 @@ const corsOptions = {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
       callback(null, true)
     } else {
-      callback(new Error('Not allowed by CORS'))
+      callback(createError(401))
     }
   },
   credentials: true
@@ -43,7 +43,7 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-//   res.locals.error = process.env.env === 'development' ? err : {};
+   res.locals.error = process.env.env === 'development' ? err : {};
 	res.locals.error = err
 
   // render the error page

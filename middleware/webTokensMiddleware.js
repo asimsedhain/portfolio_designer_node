@@ -1,3 +1,4 @@
+const createError = require("http-errors")
 const { verifyRefreshToken, verifyAccessToken } = require("../utility/webTokens")
 
 const verifyAccessTokenMiddleware = (req, res, next) => {
@@ -23,10 +24,12 @@ const verifyRefreshTokenMiddleware = (req, res, next) => {
 			req.userId = token.id
 			next()
 		} catch (error) {
-			next(error)
+			
+			console.log(error)
+			next(createError(401))
 		}
 	}else{
-		res.json({status: "ok"})
+		next(createError(401))
 	}
 }
 
