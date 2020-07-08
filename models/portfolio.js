@@ -9,7 +9,14 @@ const Experience = { CompanyName: { type: String, required: true }, Position: { 
 
 
 const portfolioSchema = new Schema({
-	userId: String,
+	userId: {
+		type: String,
+		default: null
+	},
+	portfolioName: {
+		type: String,
+		default: Date.now
+	},
 	fullName: {
 		type: String,
 		unique: false
