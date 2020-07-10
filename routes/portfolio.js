@@ -9,10 +9,10 @@ const { verifyAccessTokenMiddleware, verifyAccessTokenLooseMiddleware} = require
 // GETs all the portfolios for the user
 router.get("/list", verifyAccessTokenMiddleware, async (req, res, next) =>{
 	try{
-		const portfolios = await Portfolio.find({userId: req.userId}, "_id portfolioName")
+		const portfolios = await Portfolio.find({userId: req.userId}, "_id portfolioName").exec()
 		res.json(portfolios)
 	}catch(error){
-		next(createError(400))
+		next(createError(404))
 	}	
 })
 
@@ -23,10 +23,10 @@ router.get("/", async (req, res, next)=>{
 		if(portfolio){
 			res.json(portfolio)
 		} else{
-			throw createError(400)
+			throw createError(404)
 		}
 	}catch (error){
-		next(createError(400))
+		next(createError(404))
 	}
 })
 
