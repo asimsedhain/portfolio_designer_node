@@ -2,6 +2,7 @@ const createError = require("http-errors")
 const express = require('express');
 const router = express.Router();
 const Portfolio = require("../models/portfolio")
+const {createAccessToken} = require("../utility/webTokens")
 const { verifyAccessTokenMiddleware, verifyAccessTokenLooseMiddleware} = require("../middleware/webTokensMiddleware")
 
 
@@ -39,6 +40,27 @@ router.post("/", verifyAccessTokenLooseMiddleware, async (req, res, next)=>{
 		await portfolio.save()
 		res.json({id: portfolio._id})
 	} catch (error){
+		next(createError(400))
+	}
+})
+
+// deletes the portfolio with query id
+router.delete("/", verifyAccessTokenMiddleware, async (req, res, next)=>{
+	try{
+		const portfolio = await Portfolio.deleteOne({userId: req.userId, _id: req.query.id}).exec()
+		res.json({status: "success"})
+	}catch(error){
+		next(createError(404))
+	}
+})
+
+
+//updates the portfolio
+router.put("/", verifyAccessTokenMiddleware, async(req, res, next)=>{
+	try{
+		await Portfolio.updateOne({userId: req.userId, _id: req.query.id}, req.body).exec()
+		res.json({status: "success"})
+	}catch(error){
 		next(createError(400))
 	}
 })
