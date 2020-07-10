@@ -7,7 +7,7 @@ mongoose.Promise = global.Promise;
 const DB_URL = "mongodb://localhost:27017"
 
 
-const vaild_doc = [{ fullName: "hey", "bio": "Hey I am Test", projects: [], education: [], experiences: [] }, { fullName: "Hey", bio: "I am another test" }, {
+const validDoc = [{ fullName: "hey", "bio": "Hey I am Test", projects: [], education: [], experiences: [] }, { fullName: "Hey", bio: "I am another test" }, {
 	fullName: 'Susan Lee',
 	email: 'SLee@gmail.com',
 	bio: 'Web Developer at FANNG',
@@ -54,11 +54,14 @@ const vaild_doc = [{ fullName: "hey", "bio": "Hey I am Test", projects: [], educ
 	}],
 }]
 
-
+let validId = []
 
 before("Setting up", async () => {
-	mongoose.connect(DB_URL, { useNewUrlParser: true })
-
+	await mongoose.connect(DB_URL, { useNewUrlParser: true })
+	for (doc of validDoc){
+		item = await new Portfolio(doc).save()
+		validId.push(item._id)
+	}
 })
 
 // Testing all the api endpoints
@@ -68,24 +71,41 @@ describe("API Tests", () => {
 	// Testing all the GET requests
 	describe("GET", async () => {
 
-		// Testing the /users endpoint
-		describe("GET /users", async () => {
-			it("should fail to get users", async () => {
-				const res = await request(app).get("/users")
-				expect(res.statusCode).to.equal(401)
+		// Testing the /portfolio endpoint
+		describe("GET /portfolio", async () => {
+			it("should fail to get portfolio", async () => {
+				const res = await request(app).get("/portfolio")
+				expect(res.statusCode).to.not.equal(200)
 				expect(res.body).to.have.property("error")
 			})
 
-			it("should fail to get users", async () => {
-				const res = await request(app).get("/users/adsfhoinadf")
-				expect(res.statusCode).to.equal(401)
+			it("should fail to get portfolio", async () => {
+				const res = await request(app).get("/portfolio/adsfhoinadf")
+				expect(res.statusCode).to.not.equal(200)
 				expect(res.body).to.have.property("error")
+			})
+
+			//Does work, fix
+			validId.map((id) => {
+				console.log(`here: ${id}`)
+				it("should get portfolio for the id", async () => {
+					const res = await request(app).get(`/portfolio?id=${id}`)
+					expect(res.statusCode).to.equal(200)
+					expect(res.body).to.have.property("status")
+				})
 			})
 
 
 		})
 
 
+		describe("GET /authenticate", async ()=>{
+			it("should logout user", async ()=>{
+				const res = await request(app).get("/user/logout")
+				expect(res.statusCode).to.equal(200)
+				expect(res.body).to.have.property("status")
+			})
+		})
 
 	})
 
@@ -93,14 +113,14 @@ describe("API Tests", () => {
 
 
 		// Testing the post endpoint
-		describe("POST /users", async () => {
+		describe("POST /portfolio", async () => {
 
 			// Tesitng with the correct data
-			vaild_doc.map((doc) => {
+			validDoc.map((doc) => {
 				it("should post the data and return the ID", async () => {
-					const res = await request(app).post("/users").send(doc)
+					const res = await request(app).post("/portfolio").send(doc)
 					expect(res.statusCode).to.equal(200)
-					expect(res.body).to.have.property("id")
+					expect(res.body).to.have.property("status")
 					expect(res.body).to.not.have.property("error")
 				})
 			})

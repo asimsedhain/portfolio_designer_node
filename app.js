@@ -4,7 +4,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require("cors")
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const authenticateRouter = require("./routes/authenticate");
 const portfolioRouter = require("./routes/portfolio")
 const userRouter = require("./routes/user")
@@ -29,7 +28,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use("/authenticate", authenticateRouter);
 app.use('/user', userRouter)
 app.use("/portfolio", portfolioRouter)
