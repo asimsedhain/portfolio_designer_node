@@ -31,12 +31,13 @@ router.get("/", async (req, res, next)=>{
 })
 
 // POSTs new portfolio for the user 
+// returns id for portfolio
 router.post("/", verifyAccessTokenLooseMiddleware, async (req, res, next)=>{
 	try{
 		const portfolioObject = {...req.body, userId: req.userId}
 		const portfolio = new Portfolio(portfolioObject)
 		await portfolio.save()
-		res.json({status: "success"})
+		res.json({id: portfolio._id})
 	} catch (error){
 		next(createError(400))
 	}
