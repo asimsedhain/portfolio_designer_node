@@ -12,7 +12,6 @@ router.get("/list", verifyAccessTokenMiddleware, async (req, res, next) =>{
 		const portfolios = await Portfolio.find({userId: req.userId}, "_id portfolioName")
 		res.json(portfolios)
 	}catch(error){
-		console.log(`${new Date().toLocaleString()}: ${error}`)
 		next(createError(400))
 	}	
 })
@@ -27,7 +26,6 @@ router.get("/", async (req, res, next)=>{
 			throw createError(400)
 		}
 	}catch (error){
-		console.log(`${new Date().toLocaleString()}: ${error}`)
 		next(createError(400))
 	}
 })
@@ -40,7 +38,6 @@ router.post("/", verifyAccessTokenLooseMiddleware, async (req, res, next)=>{
 		await portfolio.save()
 		res.json({status: "success"})
 	} catch (error){
-		console.log(`${new Date().toLocaleString()}: ${error}`)
 		next(createError(400))
 	}
 })

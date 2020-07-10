@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const createError = require("http-errors")
 const User = require('../models/user')
 const {decode} = require('jsonwebtoken')
 const {createAccessToken, createRefreshToken} = require("../utility/webTokens");
 const { getGoogleIdTokenFromCode } = require("../utility/getGoogleIdTokenFromCode");
 
+
 // POST gets code from google api and returns access token and refresh token
-router.post("/google", async (req, res) => {
+router.post("/google", async (req, res, next) => {
 	try {
 
 		// Getting the jwt from google
@@ -34,8 +36,7 @@ router.post("/google", async (req, res) => {
 		res.json({"awt": createAccessToken(existingUser._id, existingUser.fullName)})
 
 	} catch (e) {
-		console.log(e)
-		res.json({ error: "User login error" })
+		next(createError(400))
 	}
 
 });
