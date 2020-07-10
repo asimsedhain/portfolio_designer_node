@@ -2,7 +2,7 @@ const createError = require("http-errors")
 const express = require('express');
 const router = express.Router();
 const Portfolio = require("../models/portfolio")
-const {  verifyAccessTokenMiddleware} = require("../middleware/webTokensMiddleware")
+const { verifyAccessTokenMiddleware, verifyAccessTokenLooseMiddleware} = require("../middleware/webTokensMiddleware")
 
 
 
@@ -18,9 +18,9 @@ router.get("/list", verifyAccessTokenMiddleware, async (req, res, next) =>{
 })
 
 // GETs the portfolio with the given id in query
-router.get("/", verifyAccessTokenMiddleware, async (req, res, next)=>{
+router.get("/", async (req, res, next)=>{
 	try{
-		const portfolio = await Portfolio.findById(req.query.id).exec()
+		const portfolio = await Portfolio.findById(req.query.id, "-userId -portfolioName -_id").exec()
 		if(portfolio){
 			res.json(portfolio)
 		} else{
@@ -33,7 +33,7 @@ router.get("/", verifyAccessTokenMiddleware, async (req, res, next)=>{
 })
 
 // POSTs new portfolio for the user 
-router.post("/", verifyAccessTokenMiddleware, async (req, res, next)=>{
+router.post("/", verifyAccessTokenLooseMiddleware, async (req, res, next)=>{
 	try{
 		const portfolioObject = {...req.body, userId: req.userId}
 		const portfolio = new Portfolio(portfolioObject)

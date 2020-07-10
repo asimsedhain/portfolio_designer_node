@@ -39,4 +39,25 @@ const verifyRefreshTokenMiddleware = (req, res, next) => {
 	}
 };
 
-module.exports = { verifyAccessTokenMiddleware, verifyRefreshTokenMiddleware };
+const verifyAccessTokenLooseMiddleware = (req, res, next)=>{
+	const header = req.headers["authorization"];
+	if (!header) {
+		next();
+		return;
+	}
+	try {
+		// header comes in "Bearer TOKEN" format.
+		// we split the token and decode it
+		const token = verifyAccessToken(header.split(" ")[1]);
+		req.userName = token.name;
+		req.userId = token.id;
+		next();
+	} catch (error) {
+		console.log(error);
+		next();
+	}
+
+
+}
+
+module.exports = { verifyAccessTokenMiddleware, verifyRefreshTokenMiddleware , verifyAccessTokenLooseMiddleware};
