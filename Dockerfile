@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM keymetrics/pm2
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -15,4 +15,4 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-CMD [ "npm", "start" ]
+CMD [ "pm2-runtime", "start" , "server.js", "-i", "max"]
